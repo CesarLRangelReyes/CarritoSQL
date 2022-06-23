@@ -43,6 +43,8 @@ namespace CarritoSQL
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvCarrito = new System.Windows.Forms.DataGridView();
+            this.txtFolio = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumerico)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarrito)).BeginInit();
             this.SuspendLayout();
@@ -102,7 +104,7 @@ namespace CarritoSQL
             this.txtFecha.CustomFormat = "dd/MM/yyyy";
             this.txtFecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFecha.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.txtFecha.Location = new System.Drawing.Point(670, 7);
+            this.txtFecha.Location = new System.Drawing.Point(670, 36);
             this.txtFecha.Name = "txtFecha";
             this.txtFecha.Size = new System.Drawing.Size(118, 24);
             this.txtFecha.TabIndex = 35;
@@ -189,11 +191,31 @@ namespace CarritoSQL
             this.dgvCarrito.Size = new System.Drawing.Size(776, 227);
             this.dgvCarrito.TabIndex = 27;
             // 
+            // txtFolio
+            // 
+            this.txtFolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFolio.Location = new System.Drawing.Point(633, 6);
+            this.txtFolio.Name = "txtFolio";
+            this.txtFolio.Size = new System.Drawing.Size(155, 24);
+            this.txtFolio.TabIndex = 42;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(557, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(73, 18);
+            this.label6.TabIndex = 41;
+            this.label6.Text = "No. Folio:";
+            // 
             // Ventas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 401);
+            this.Controls.Add(this.txtFolio);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.Eliminar);
             this.Controls.Add(this.Agregar);
             this.Controls.Add(this.lbTotal);
@@ -234,6 +256,8 @@ namespace CarritoSQL
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgvCarrito;
+        private System.Windows.Forms.TextBox txtFolio;
+        private System.Windows.Forms.Label label6;
     }
 }
 

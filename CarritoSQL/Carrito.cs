@@ -11,6 +11,9 @@ namespace CarritoSQL
         private string marca;
         private int venta;
         private double costo;
+        private int total;
+        private int folio;
+        private string fecha;
 
         SqlConnection conexion = new SqlConnection("server = DESKTOP-N1Q1432; database= Pimaria_Y_Foranea; integrated security = true");
 
@@ -19,6 +22,9 @@ namespace CarritoSQL
         public string Marca { get => marca; set => marca = value; }
         public int Venta { get => venta; set => venta = value; }
         public double Costo { get => costo; set => costo = value; }
+        public int Total { get => total; set => total = value; }
+        public int Folio { get => folio; set => folio = value; }
+        public string Fecha { get => fecha; set => fecha = value; }
 
         public DataTable NombreProducto()
         {
@@ -97,6 +103,29 @@ namespace CarritoSQL
             SqlCommand cmd = new SqlCommand("update Producto set Cantidad_Producto = @cantidad where Codigo_Producto = @codigo", conexion);
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@cantidad", Venta);
+            cmd.Parameters.AddWithValue("@codigo", Codigo);
+            cmd.ExecuteNonQuery();
+            conexion.Close();
+        }
+        public void AddFolio() {
+            conexion.Open();
+            SqlCommand cmd = new SqlCommand("insert into Folios values(@folio,@fecha,@codigo,@producto,@marca,@venta,@costo,@total)",conexion);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@folio",Folio);
+            cmd.Parameters.AddWithValue("@fecha", Convert.ToDateTime(Fecha));
+            cmd.Parameters.AddWithValue("@codigo",Codigo);
+            cmd.Parameters.AddWithValue("@producto",Producto);
+            cmd.Parameters.AddWithValue("@marca",Marca);
+            cmd.Parameters.AddWithValue("@venta",Venta);
+            cmd.Parameters.AddWithValue("@costo",Costo);
+            cmd.Parameters.AddWithValue("@total",Total);
+            cmd.ExecuteNonQuery();
+            conexion.Close();
+        }
+        public void DeleteFolio() {
+            conexion.Open();
+            SqlCommand cmd = new SqlCommand("delete from Folios where Codigo_Producto = @codigo",conexion);
+            cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@codigo", Codigo);
             cmd.ExecuteNonQuery();
             conexion.Close();

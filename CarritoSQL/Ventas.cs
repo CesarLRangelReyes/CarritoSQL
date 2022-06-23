@@ -67,12 +67,26 @@ namespace CarritoSQL
                 row["Costo"] = car.Costo;
                 row["Total"] = Convert.ToInt32(txtNumerico.Value.ToString()) * car.Costo;
                 dato.Rows.Add(row);
+
                 total = total + Convert.ToInt32(txtNumerico.Value.ToString()) * car.Costo;
                 lbTotal.Text = Convert.ToString(total);
                 int modificar;
                 modificar = car.Venta - Convert.ToInt32(txtNumerico.Value.ToString());
                 car.Venta = modificar;
                 car.RestarSumarProdcuto();
+
+                car.Folio = Convert.ToInt32(txtFolio.Text);
+                car.Fecha = txtFecha.Text;
+                car.Codigo = txtCodigo.Text;
+                car.Producto = txtProductos.Text;
+                car.Marca = txtMarca.Text;
+                car.Venta = Convert.ToInt32(txtNumerico.Value.ToString());
+                car.Costo = car.Costo;
+                double all = 0;
+                all = all + Convert.ToInt32(txtNumerico.Value.ToString()) * car.Costo;
+                car.Total = Convert.ToInt32(all);
+                car.AddFolio();
+
                 txtCodigo.Text = "";
                 txtProductos.Enabled = true;
                 txtMarca.Enabled = true;
@@ -94,9 +108,12 @@ namespace CarritoSQL
                 double all = cantidad * costo;
                 car.Codigo = codigo;
                 car.CantidadProducto();
+
                 int res = car.Venta + cantidad;
                 car.Venta = res;
                 car.RestarSumarProdcuto();
+                car.DeleteFolio();
+
                 total = total - all;
                 lbTotal.Text = Convert.ToString(total);
                 int fil = dgvCarrito.CurrentRow.Index;
