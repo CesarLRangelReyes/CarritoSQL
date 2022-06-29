@@ -9,11 +9,13 @@ namespace CarritoSQL
         Carrito car = new Carrito();
         DataTable dato = new DataTable();
         double total;
+        int fila = 0;
         public Ventas()
         {
             InitializeComponent();
             NombreCampos();
             MostrarProducto();
+            NumFolio();
         }
         public void NombreCampos()
         {
@@ -30,6 +32,11 @@ namespace CarritoSQL
             txtProductos.ValueMember = "Nombre_Producto";
             txtProductos.DisplayMember = "Nombre_Producto";
             txtProductos.DataSource = car.NombreProducto();
+        }
+        public void NumFolio() {
+            Random folio = new Random();
+            int fol = folio.Next(1000,20000);
+            txtFolio.Text = Convert.ToString(fol);
         }
 
         private void txtProductos_SelectedIndexChanged(object sender, EventArgs e)
@@ -90,6 +97,8 @@ namespace CarritoSQL
                 txtCodigo.Text = "";
                 txtProductos.Enabled = true;
                 txtMarca.Enabled = true;
+                txtProductos.Text = "------Seleccione Producto------";
+                txtMarca.Text = "--------Seleccina la Marca-------";
                 txtNumerico.Value = 0;
             }
             else
@@ -119,6 +128,75 @@ namespace CarritoSQL
                 int fil = dgvCarrito.CurrentRow.Index;
                 dgvCarrito.Rows.RemoveAt(fil);
             }
+        }
+
+        private void txtEfectivo_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                float total;
+                float devolucion;
+                total = float.Parse(lbTotal.Text);
+                devolucion = float.Parse(txtEfectivo.Text) - total;
+                lbDevolucion.Text = Convert.ToString(devolucion);
+            }
+            catch {
+                lbDevolucion.Text = "0.00";
+            }
+        }
+
+        private void txtVender_Click(object sender, EventArgs e)
+        {
+            Factura.CreaTicket Ticket1 = new Factura.CreaTicket();
+
+            Ticket1.TextoCentro("Empresa xxxxx "); //imprime una linea de descripcion
+            Ticket1.TextoCentro("**********************************");
+
+            Ticket1.TextoIzquierda("Dirc: xxxx");
+            Ticket1.TextoIzquierda("Tel:xxxx ");
+            Ticket1.TextoIzquierda("Rnc: xxxx");
+            Ticket1.TextoIzquierda("");
+            Ticket1.TextoCentro("Factura de Venta"); //imprime una linea de descripcion
+            Ticket1.TextoIzquierda("No Fac:" + txtFolio.Text);
+            Ticket1.TextoIzquierda("Fecha:" + DateTime.Now.ToShortDateString() + " Hora:" + DateTime.Now.ToShortTimeString());
+            Ticket1.TextoIzquierda("Le Atendio: xxxx");
+            Ticket1.TextoIzquierda("");
+            Factura.CreaTicket.LineasGuion();
+
+            Factura.CreaTicket.EncabezadoVenta();
+            Factura.CreaTicket.LineasGuion();
+            foreach (DataGridViewRow r in dgvCarrito.Rows)
+            {
+                // PROD                     //PrECIO                                    CANT                         TOTAL
+                Ticket1.AgregaArticulo(r.Cells[1].Value.ToString(), int.Parse(r.Cells[3].Value.ToString()), double.Parse(r.Cells[4].Value.ToString()), double.Parse(r.Cells[5].Value.ToString())); //imprime una linea de descripcion
+
+            }
+
+            Factura.CreaTicket.LineasGuion();
+            Ticket1.TextoIzquierda(" ");
+            Ticket1.AgregaTotales("Total", double.Parse(lbTotal.Text)); // imprime linea con total
+            Ticket1.TextoIzquierda(" ");
+            Ticket1.AgregaTotales("Efectivo Entregado:", double.Parse(txtEfectivo.Text));
+            Ticket1.AgregaTotales("Efectivo Devuelto:", double.Parse(lbDevolucion.Text));
+
+            // Ticket1.LineasTotales(); // imprime linea 
+
+            Ticket1.TextoIzquierda(" ");
+            Ticket1.TextoCentro("**********************************");
+            Ticket1.TextoCentro("*     Gracias por preferirnos    *");
+
+            Ticket1.TextoCentro("**********************************");
+            Ticket1.TextoIzquierda(" ");
+            string impresora = "Microsoft XPS Document Writer";
+            Ticket1.ImprimirTiket(impresora);
+            MessageBox.Show("Gracias por preferirnos");
+
+            fila = 0;
+            while (dgvCarrito.RowCount > 0) {
+                dgvCarrito.Rows.Remove(dgvCarrito.CurrentRow);
+            }
+            NumFolio();
+            lbDevolucion.Text = lbTotal.Text = "0.00";
         }
     }
 }
