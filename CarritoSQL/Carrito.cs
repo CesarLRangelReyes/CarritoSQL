@@ -11,7 +11,7 @@ namespace CarritoSQL
         private string marca;
         private int venta;
         private double costo;
-        private int total;
+        private double total;
         private int folio;
         private string fecha;
 
@@ -22,7 +22,7 @@ namespace CarritoSQL
         public string Marca { get => marca; set => marca = value; }
         public int Venta { get => venta; set => venta = value; }
         public double Costo { get => costo; set => costo = value; }
-        public int Total { get => total; set => total = value; }
+        public double Total { get => total; set => total = value; }
         public int Folio { get => folio; set => folio = value; }
         public string Fecha { get => fecha; set => fecha = value; }
 
@@ -119,14 +119,6 @@ namespace CarritoSQL
             cmd.Parameters.AddWithValue("@venta",Venta);
             cmd.Parameters.AddWithValue("@costo",Costo);
             cmd.Parameters.AddWithValue("@total",Total);
-            cmd.ExecuteNonQuery();
-            conexion.Close();
-        }
-        public void DeleteFolio() {
-            conexion.Open();
-            SqlCommand cmd = new SqlCommand("delete from Folios where Codigo_Producto = @codigo",conexion);
-            cmd.CommandType = CommandType.Text;
-            cmd.Parameters.AddWithValue("@codigo", Codigo);
             cmd.ExecuteNonQuery();
             conexion.Close();
         }

@@ -82,18 +82,6 @@ namespace CarritoSQL
                 car.Venta = modificar;
                 car.RestarSumarProdcuto();
 
-                car.Folio = Convert.ToInt32(txtFolio.Text);
-                car.Fecha = txtFecha.Text;
-                car.Codigo = txtCodigo.Text;
-                car.Producto = txtProductos.Text;
-                car.Marca = txtMarca.Text;
-                car.Venta = Convert.ToInt32(txtNumerico.Value.ToString());
-                car.Costo = car.Costo;
-                double all = 0;
-                all = all + Convert.ToInt32(txtNumerico.Value.ToString()) * car.Costo;
-                car.Total = Convert.ToInt32(all);
-                car.AddFolio();
-
                 txtCodigo.Text = "";
                 txtProductos.Enabled = true;
                 txtMarca.Enabled = true;
@@ -121,7 +109,6 @@ namespace CarritoSQL
                 int res = car.Venta + cantidad;
                 car.Venta = res;
                 car.RestarSumarProdcuto();
-                car.DeleteFolio();
 
                 total = total - all;
                 lbTotal.Text = Convert.ToString(total);
@@ -191,11 +178,26 @@ namespace CarritoSQL
             Ticket1.ImprimirTiket(impresora);
             MessageBox.Show("Gracias por preferirnos");
 
+            foreach (DataGridViewRow datos in dgvCarrito.Rows)
+            {
+                car.Folio = Convert.ToInt32(txtFolio.Text);
+                car.Fecha = txtFecha.Text;
+                car.Codigo = datos.Cells[0].Value.ToString();
+                car.Producto = datos.Cells[1].Value.ToString();
+                car.Marca = datos.Cells[2].Value.ToString();
+                car.Venta = Convert.ToInt32(datos.Cells[3].Value.ToString());
+                car.Costo = Convert.ToDouble(datos.Cells[4].Value.ToString());
+                car.Total = Convert.ToDouble(datos.Cells[5].Value.ToString());
+                car.AddFolio();
+            }
+
             fila = 0;
             while (dgvCarrito.RowCount > 0) {
                 dgvCarrito.Rows.Remove(dgvCarrito.CurrentRow);
             }
             NumFolio();
+            total = 0;
+            txtEfectivo.Text = "";
             lbDevolucion.Text = lbTotal.Text = "0.00";
         }
     }
